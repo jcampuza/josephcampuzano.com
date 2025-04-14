@@ -1,0 +1,44 @@
+---
+import PostDetails from "@/components/PostDetails.astro";
+import PostTags from "@/components/PostTags.astro";
+import ScrollProgressBar from "@/components/ScrollProgressBar.astro";
+import Layout from "@/layouts/Layout.astro";
+import { readingTimeMins } from "@/lib/readingTime";
+import { render } from "astro:content";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.preview}>
+  <ScrollProgressBar />
+  <article>
+    <header>
+      <h1 class="text-2xl mb-2 font-semibold">{post.data.title}</h1>
+
+      <PostDetails
+        class="mb-2"
+        timeToReadMins={readingTimeMins(post.rendered?.html ?? "")}
+        timestamp={post.data.date.getDate()}
+      />
+
+      <PostTags tags={post.data.tags} />
+    </header>
+
+    <section
+      class="prose prose-invert prose-headings:font-semibold prose-headings:text-gray-100 text-gray-200 my-8"
+    >
+      <Content />
+    </section>
+  </article>
+</Layout>

@@ -1,0 +1,19 @@
+---
+import { cn } from "../lib/cn";
+import { formatDateLong } from "@/lib/utils";
+
+interface Props {
+  timestamp: number;
+  timeToReadMins: number;
+  class?: string;
+}
+
+const { timeToReadMins, timestamp, class: className } = Astro.props;
+
+const dateFormatted = formatDateLong(timestamp);
+---
+
+<aside class={cn(className)}>
+  <time class="block text-xs italic">{dateFormatted} </time>
+  <small class="block italic">Reading Time: {timeToReadMins} min</small>
+</aside>

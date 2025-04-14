@@ -1,11 +1,28 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import PostSummary from "@/components/PostSummary.astro";
+import { readingTimeMins } from "@/lib/readingTime";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = await getCollection("posts");
 ---
 
 <Layout>
-	<Welcome />
+  <ul>
+    {
+      posts.map((post) => (
+        <li class="last:border-b-0 border-b border-neutral-700">
+          <PostSummary
+            title={post.data.title}
+            timestamp={post.data.date.getDate()}
+            preview={post.data.preview}
+            href={`/posts/${post.id}`}
+            tags={post.data.tags}
+            timeToReadMins={readingTimeMins(post.rendered?.html ?? "")}
+          />
+        </li>
+      ))
+    }
+  </ul>
 </Layout>

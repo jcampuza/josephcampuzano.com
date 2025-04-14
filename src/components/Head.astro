@@ -1,0 +1,66 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const defaultMetadata = {
+  title: "Joseph Campuzano",
+  description: "Personal website and blog of Joseph Campuzano",
+};
+
+const metadata = {
+  title: title ? `${title} | ${defaultMetadata.title}` : defaultMetadata.title,
+  metadataBase: new URL("https://josephcampuzano.com"),
+  description: description ?? defaultMetadata.description,
+  keywords: ["Joseph Campuzano", "Software Developer", "Travel", "Personal Blog"],
+  twitter: {
+    creator: "CampuzanoJoe",
+    card: "summary",
+  },
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    shortcut: "/favicon.ico",
+    icon: [
+      {
+        url: "/favicon.ico",
+      },
+      {
+        sizes: "16x16",
+        url: "/favicon-16x16.png",
+      },
+      {
+        sizes: "32x32",
+        url: "/favicon-32x32.png",
+      },
+    ],
+  },
+};
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{metadata.title}</title>
+  <meta name="description" content={metadata.description} />
+  <meta name="keywords" content={metadata.keywords.join(", ")} />
+  <link rel="canonical" href={metadata.alternates.canonical} />
+
+  <!-- Twitter -->
+  <meta name="twitter:creator" content={metadata.twitter.creator} />
+  <meta name="twitter:card" content={metadata.twitter.card} />
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href={metadata.icons.shortcut} />
+  {
+    metadata.icons.icon.map((icon) => (
+      <link rel="icon" href={icon.url} {...(icon.sizes && { sizes: icon.sizes })} />
+    ))
+  }
+</head>

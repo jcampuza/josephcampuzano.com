@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+a {
+  @apply hover:underline;
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @apply max-w-[900px];
+}

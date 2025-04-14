@@ -1,0 +1,28 @@
+<div
+  data-scroll-progress-bar
+  style={{ "--t": 0 }}
+  class="fixed top-0 left-0 h-1 z-10 w-full bg-violet-700 origin-left scale-x-[var(--t)]"
+>
+</div>
+
+<script>
+  const scrollEl = document.querySelector("[data-scroll-progress-bar]") as HTMLDivElement;
+  const getScrollPercentage = (el = document.scrollingElement) => {
+    if (!el) {
+      return 0;
+    }
+
+    return el.scrollTop / (el.scrollHeight - el.clientHeight);
+  };
+
+  const setScrollTransform = () => {
+    if (scrollEl) {
+      requestAnimationFrame(() => {
+        scrollEl.style.setProperty("--t", `${getScrollPercentage()}`);
+      });
+    }
+  };
+
+  setScrollTransform();
+  window.addEventListener("scroll", setScrollTransform);
+</script>
