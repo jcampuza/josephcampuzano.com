@@ -6,16 +6,18 @@ import PostSummary from "@/components/PostSummary.astro";
 import { readingTimeMins } from "@/lib/readingTime";
 
 const posts = await getCollection("posts");
+
+const orderedPosts = posts.slice().sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <Layout>
   <ul>
     {
-      posts.map((post) => (
+      orderedPosts.map((post) => (
         <li class="last:border-b-0 border-b border-neutral-700">
           <PostSummary
             title={post.data.title}
-            timestamp={post.data.date.getDate()}
+            timestamp={post.data.date.getTime()}
             preview={post.data.preview}
             href={`/posts/${post.id}`}
             tags={post.data.tags}
