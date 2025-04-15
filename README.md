@@ -1,48 +1,90 @@
-# Astro Starter Kit: Basics
+# Joseph Campuzano's Personal Website
 
-```sh
-pnpm create astro@latest -- --template basics
+This is my personal website built with Astro and deployed on Cloudflare Pages. The site features a modern, responsive design powered by Tailwind CSS.
+
+## 🚀 Tech Stack
+
+- [Astro](https://astro.build) - Static Site Generator
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
+- [Cloudflare Pages](https://pages.cloudflare.com) - Hosting platform
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js (Latest LTS version recommended)
+- npm or yarn
+
+### Available Commands
+
+```bash
+# Start the development server
+npm run dev
+
+# Build the project
+npm run build
+
+# Preview the production build locally
+npm run preview
+
+# Deploy to Cloudflare Pages
+npm run deploy
+
+# Generate Cloudflare Workers types
+npm run cf-typegen
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 📝 Project Structure
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- `/src` - Source code
+  - `/components` - Reusable React components
+  - `/layouts` - Page layouts
+  - `/pages` - Astro pages
+  - `/styles` - Global styles and Tailwind configuration
+  - `/content` - Content management
+    - `/posts` - Blog posts and articles
+    - `config.ts` - Content collection configuration
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## 📚 Content Management
 
-## 🚀 Project Structure
+The site uses Astro's content collections for managing blog posts and articles. Content is stored in Markdown format with frontmatter for metadata.
 
-Inside of your Astro project, you'll see the following folders and files:
+### Blog Posts
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+Blog posts are stored in `/src/content/posts` as Markdown files. Each post requires the following frontmatter:
+
+```yaml
+---
+title: "Post Title"
+preview: "Brief description of the post"
+date: "2024-04-14"
+tags: ["tag1", "tag2"]
+---
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### Content Collections
 
-## 🧞 Commands
+The content schema is defined in `src/content/config.ts` and includes:
 
-All commands are run from the root of the project, from a terminal:
+- Title
+- Preview text
+- Publication date
+- Tags
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## 🚀 Deployment
 
-## 👀 Want to learn more?
+The site is automatically deployed to Cloudflare Pages when changes are pushed to the main branch. The deployment process includes:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Building the static site with Astro
+2. Deploying to Cloudflare Pages using Wrangler
+
+## 🔧 Configuration
+
+- `astro.config.mjs` - Astro configuration
+- `tailwind.config.mjs` - Tailwind CSS configuration
+- `tsconfig.json` - TypeScript configuration
+- `wrangler.toml` - Cloudflare Workers configuration
+
+## 📄 License
+
+This project is open source and available under the MIT License.
