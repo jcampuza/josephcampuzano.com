@@ -10,3 +10,11 @@ a {
   padding-inline: 2rem;
   @apply max-w-[900px];
 }
+
+html {
+  @apply bg-slate-950;
+}
+
+body {
+  background: radial-gradient(circle at 50% 50%, #000000, #140928);
+}
