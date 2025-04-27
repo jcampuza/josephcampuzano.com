@@ -15,4 +15,8 @@ export default defineConfig({
       enabled: true,
     },
   }),
+
+  prefetch: {
+    defaultStrategy: "viewport",
+  },
 });

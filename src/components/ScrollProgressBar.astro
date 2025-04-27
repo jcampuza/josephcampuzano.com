@@ -6,7 +6,8 @@
 </div>
 
 <script>
-  const scrollEl = document.querySelector("[data-scroll-progress-bar]") as HTMLDivElement;
+  const getScrollEl = () => document.querySelector<HTMLDivElement>("[data-scroll-progress-bar]");
+
   const getScrollPercentage = (el = document.scrollingElement) => {
     if (!el) {
       return 0;
@@ -16,13 +17,17 @@
   };
 
   const setScrollTransform = () => {
-    if (scrollEl) {
+    const el = getScrollEl();
+
+    if (el) {
       requestAnimationFrame(() => {
-        scrollEl.style.setProperty("--t", `${getScrollPercentage()}`);
+        el.style.setProperty("--t", `${getScrollPercentage()}`);
       });
     }
   };
 
-  setScrollTransform();
+  document.addEventListener("astro:page-load", () => {
+    setScrollTransform();
+  });
   window.addEventListener("scroll", setScrollTransform);
 </script>

@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 interface Props {
   title?: string;
   description?: string;
@@ -63,4 +65,5 @@ const metadata = {
       <link rel="icon" href={icon.url} {...(icon.sizes && { sizes: icon.sizes })} />
     ))
   }
+  <ClientRouter />
 </head>
