@@ -8,13 +8,13 @@ a {
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @apply max-w-[900px];
+  @apply max-w-[700px];
 }
 
 html {
-  @apply bg-slate-950;
+  @apply bg-black;
 }
 
 body {
-  background: radial-gradient(circle at 50% 50%, #000000, #140928);
+  background: #000000;
 }

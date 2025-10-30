@@ -13,7 +13,7 @@ const orderedPosts = posts.slice().sort((a, b) => b.data.date.getTime() - a.data
   <ul>
     {
       orderedPosts.map((post) => (
-        <li class="last:border-b-0 border-b border-neutral-700">
+        <li class="last:border-b-0 border-b border-neutral-500">
           <PostSummary
             title={post.data.title}
             timestamp={post.data.date.getTime()}

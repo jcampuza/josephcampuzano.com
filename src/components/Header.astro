@@ -9,12 +9,13 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<header
-  class={cn("sticky top-0  backdrop-filter backdrop-blur border-b border-neutral-900", className)}
->
-  <Container class="flex justify-between">
-    <h1>
-      <a href="/" class="text-md"> Joseph Campuzano </a>
-    </h1>
+<header class={cn("sticky top-0  backdrop-filter backdrop-blur", className)}>
+  <Container>
+    <div class="flex justify-between">
+      <h1>
+        <a href="/" class="text-md"> Joseph Campuzano </a>
+      </h1>
+    </div>
+    <hr class="border-0 border-t border-neutral-500 mt-4 h-0" />
   </Container>
 </header>
