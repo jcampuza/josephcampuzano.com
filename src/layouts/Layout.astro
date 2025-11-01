@@ -18,22 +18,34 @@ import Head from "@/components/Head.astro";
   <Head title={title} description={description} />
 
   <body class={"min-h-screen selection:bg-white selection:text-black antialiased  text-white"}>
-    <div class="min-h-screen flex flex-col justify-start">
-      <div class="flex-1 pt-4 sm:pt-8 pb-16">
-        <Header />
+    <div class="min-h-screen flex flex-col md:flex-row">
+      <aside
+        class="w-full md:w-1/4 p-4 md:p-8 flex flex-col md:sticky md:top-0 md:self-start md:max-h-screen"
+      >
+        <div class="flex flex-row items-center gap-4">
+          <img
+            src="/icon.png"
+            alt="Joseph Campuzano"
+            class="w-10 h-10 rounded-full border border-neutral-500"
+          />
+          <h1>
+            <a href="/" class="text-md"> Joseph Campuzano </a>
+          </h1>
+        </div>
 
-        <Container>
-          <div class="flex space-x-2">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-          </div>
-        </Container>
+        <hr class="border-0 border-t border-neutral-500 mt-4 h-0 my-4" />
 
-        <Container>
-          <slot />
-        </Container>
-      </div>
-      <Footer />
+        <ul class="flex flex-row md:flex-col gap-2">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+
+        <Footer class="mt-8" />
+      </aside>
+
+      <main class="w-full md:w-3/4 p-4 md:p-8">
+        <slot />
+      </main>
     </div>
   </body>
 </html>

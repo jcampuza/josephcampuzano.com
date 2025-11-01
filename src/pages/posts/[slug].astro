@@ -22,9 +22,29 @@ const { Content } = await render(post);
 
 <Layout title={post.data.title} description={post.data.preview}>
   <ScrollProgressBar />
+  <a
+    href="/"
+    class="inline-flex items-center gap-1 mb-4 text-gray-400 hover:text-gray-200 transition-colors"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 19-7-7 7-7"></path>
+      <path d="M19 12H5"></path>
+    </svg>
+    <span>Back</span>
+  </a>
   <article>
     <header>
-      <h1 class="text-2xl mb-2 font-semibold">{post.data.title}</h1>
+      <h1 id="title" class="text-2xl mb-2 font-semibold">{post.data.title}</h1>
 
       <PostDetails
         class="mb-2"
@@ -36,9 +56,69 @@ const { Content } = await render(post);
     </header>
 
     <section
-      class="prose prose-invert prose-headings:font-semibold prose-headings:text-gray-100 text-gray-200 my-8"
+      class="prose prose-invert prose-headings:font-semibold prose-headings:text-gray-100 text-gray-200 mt-8 mb-16"
     >
       <Content />
     </section>
   </article>
+  <a
+    id="back-to-top"
+    href="#"
+    class="fixed bottom-8 right-8 p-3 bg-black border border-white rounded-full text-gray-300 hover:text-white hover:opacity-100 transition-all opacity-0 pointer-events-none"
+    title="Back to top"
+    aria-label="Back to top"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m18 15-6-6-6 6"></path>
+    </svg>
+  </a>
 </Layout>
+
+<script>
+  const getBackToTopButton = () => document.getElementById("back-to-top");
+
+  const toggleButton = (): void => {
+    const backToTopButton = getBackToTopButton();
+    if (!backToTopButton) {
+      return;
+    }
+
+    if (window.scrollY > 200) {
+      backToTopButton.classList.remove("opacity-0", "pointer-events-none");
+      backToTopButton.classList.add("opacity-60");
+    } else {
+      backToTopButton.classList.add("opacity-0", "pointer-events-none");
+      backToTopButton.classList.remove("opacity-60");
+    }
+  };
+
+  const scrollToTop = (e: Event): void => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const setupBackToTop = (): void => {
+    const backToTopButton = getBackToTopButton();
+    if (backToTopButton) {
+      backToTopButton.addEventListener("click", scrollToTop);
+      toggleButton();
+    }
+  };
+
+  window.addEventListener("scroll", toggleButton);
+
+  document.addEventListener("astro:page-load", () => {
+    console.log("astro:page-load");
+    setupBackToTop();
+  });
+</script>
