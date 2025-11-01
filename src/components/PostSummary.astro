@@ -14,7 +14,7 @@ interface Props {
 const props = Astro.props;
 ---
 
-<article class="py-8 max-w-[500px]">
+<article class="py-6">
   <header class="mb-2 flex flex-col">
     <h2 class="text-lg focus:underline hover:underline mb-2">
       <a href={props.href}>{props.title}</a>
@@ -23,7 +23,7 @@ const props = Astro.props;
     <PostDetails timeToReadMins={props.timeToReadMins} timestamp={props.timestamp} />
   </header>
 
-  <p class="mb-2">{props.preview}</p>
+  <p class="mb-4">{props.preview}</p>
 
   <PostTags tags={props.tags} />
 </article>
