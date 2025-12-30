@@ -49,7 +49,7 @@ const { Content } = await render(post);
       <PostDetails
         class="mb-2"
         timeToReadMins={readingTimeMins(post.rendered?.html ?? "")}
-        timestamp={post.data.date.getDate()}
+        timestamp={post.data.date.getTime()}
       />
 
       <PostTags tags={post.data.tags} />
