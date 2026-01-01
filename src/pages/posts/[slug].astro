@@ -44,7 +44,9 @@ const { Content } = await render(post);
   </a>
   <article>
     <header>
-      <h1 id="title" class="text-2xl mb-2 font-semibold">{post.data.title}</h1>
+      <h1 id="title" class="text-2xl mb-2 font-semibold">
+        <span transition:name={`post-title-${post.id}`} class="inline-block">{post.data.title}</span>
+      </h1>
 
       <PostDetails
         class="mb-2"

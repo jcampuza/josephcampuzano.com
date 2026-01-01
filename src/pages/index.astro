@@ -15,6 +15,7 @@ const orderedPosts = posts.slice().sort((a, b) => b.data.date.getTime() - a.data
       orderedPosts.map((post) => (
         <li class="last:border-b-0 border-b border-neutral-700 max-w-[700px]">
           <PostSummary
+            transitionName={`post-title-${post.id}`}
             title={post.data.title}
             timestamp={post.data.date.getTime()}
             preview={post.data.preview}

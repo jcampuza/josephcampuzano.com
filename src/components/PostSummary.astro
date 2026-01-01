@@ -5,6 +5,7 @@ import PostTags from "@/components/PostTags.astro";
 interface Props {
   href: string;
   title: string;
+  transitionName: string;
   preview: string;
   timestamp: number;
   tags: string[];
@@ -17,7 +18,9 @@ const props = Astro.props;
 <article class="py-6">
   <header class="mb-2 flex flex-col">
     <h2 class="text-lg focus:underline hover:underline mb-2">
-      <a href={props.href}>{props.title}</a>
+      <a href={props.href}>
+        <span transition:name={props.transitionName} class="inline-block">{props.title}</span>
+      </a>
     </h2>
 
     <PostDetails timeToReadMins={props.timeToReadMins} timestamp={props.timestamp} />
