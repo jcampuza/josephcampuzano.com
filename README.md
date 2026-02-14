@@ -1,37 +1,37 @@
 # Joseph Campuzano's Personal Website
 
-This is my personal website built with Astro and deployed on Cloudflare Pages. The site features a modern, responsive design powered by Tailwind CSS.
+This is my personal website built with Astro and configured for deployment on Cloudflare Workers. The site features a modern, responsive design powered by Tailwind CSS.
 
 ## 🚀 Tech Stack
 
 - [Astro](https://astro.build) - Static Site Generator
 - [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
-- [Cloudflare Pages](https://pages.cloudflare.com) - Hosting platform
 
 ## 🛠️ Development
 
 ### Prerequisites
 
 - Node.js (Latest LTS version recommended)
-- npm or yarn
+- Bun
 
 ### Available Commands
 
 ```bash
 # Start the development server
-npm run dev
+bun run dev
 
 # Build the project
-npm run build
+bun run build
 
 # Preview the production build locally
-npm run preview
+bun run preview
 
-# Deploy to Cloudflare Pages
-npm run deploy
+# Preview Cloudflare Workers static assets locally
+bun run cf:dev
 
-# Generate Cloudflare Workers types
-npm run cf-typegen
+# Deploy to Cloudflare Workers
+bun run cf:deploy
+
 ```
 
 ## 📝 Project Structure
@@ -71,19 +71,33 @@ The content schema is defined in `src/content/config.ts` and includes:
 - Publication date
 - Tags
 
-## 🚀 Deployment
-
-The site is automatically deployed to Cloudflare Pages when changes are pushed to the main branch. The deployment process includes:
-
-1. Building the static site with Astro
-2. Deploying to Cloudflare Pages using Wrangler
-
 ## 🔧 Configuration
 
 - `astro.config.mjs` - Astro configuration
 - `tailwind.config.mjs` - Tailwind CSS configuration
 - `tsconfig.json` - TypeScript configuration
-- `wrangler.toml` - Cloudflare Workers configuration
+- `wrangler.jsonc` - Cloudflare Workers deployment configuration
+
+## ☁️ Deploy to Cloudflare Workers
+
+This project uses the static-assets Workers deployment model:
+
+- Build command: `bun run build`
+- Build output directory: `dist`
+- Deploy command: `bun run cf:deploy` (or `wrangler deploy`)
+
+### Cloudflare dashboard setup (Workers Builds)
+
+1. In Cloudflare, go to **Workers & Pages** and select **Create**.
+2. Import this Git repository.
+3. Set the build command to `bun run build`.
+4. Set the deploy command to `wrangler deploy`.
+5. Add any environment variables/secrets used by the project.
+6. Deploy and verify the generated `*.workers.dev` URL.
+
+### Custom domain setup
+
+To use a custom domain with Workers, the domain must be managed in Cloudflare DNS (Cloudflare zone). Add the custom domain in your Worker settings after deployment, then switch nameservers when you are ready to cut over traffic.
 
 ## 📄 License
 

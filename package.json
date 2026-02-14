@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro build && astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cf:build": "astro build",
+    "cf:dev": "astro build && wrangler dev",
+    "cf:deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5",
@@ -20,6 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.13",
-    "@tailwindcss/postcss": "^4.1.13"
+    "@tailwindcss/postcss": "^4.1.13",
+    "wrangler": "^4.65.0"
   }
 }
