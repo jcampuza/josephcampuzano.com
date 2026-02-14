@@ -1,52 +1,36 @@
-# AGENTS.md
+# Commands
 
-Agent guidelines for josephcampuzano.com
+install: bun install
+run: bun run dev
+build: bun run build
 
-## Project Overview
+# Astro Code style
 
-This is a personal website/blog built with Astro
+Tailwind for css
+Use the `cn()` utility from `@/lib/cn` for conditional classes
+Typescript for code
+Named imports always
+Use `@/*` for imports from `src/` directory
+Use Named exports for utility functions
+Use `class` prop (not `className`) - Astro convention
 
-## Tech Stack
+# Content
 
-- **Astro 5.6.1** - Static Site Generator
-- **Tailwind CSS 4.1.13** - Utility-first CSS framework (with typography plugin)
-- **TypeScript** - Type safety
-- **Cloudflare Pages** - Hosting and deployment
-- **Content Collections** - Blog post management with Zod schema validation
+Blog posts in `src/content/posts/` as Markdown with YAML frontmatter. frontmatter Schema defined in `src/content/config.ts` using Zod.
 
-### Content Management
-
-- Blog posts are stored as Markdown files in `src/content/posts/`
-- Content schema is defined in `src/content/config.ts`
-- Required frontmatter fields:
-  - `title`: string
-  - `preview`: string
-  - `date`: date (coerced)
-  - `tags`: array of strings
-
-### Routing
-
-- File-based routing in `src/pages/`
-- Dynamic routes use `[slug].astro` pattern
-- Blog posts are accessible at `/posts/[slug]`
-
-## Development Workflow
-
-```bash
-# Start development server
-bun run dev
-
-# Build for production
-bun run build
-
-# Preview production build locally
-bun run preview
-
-# Deploy to Cloudflare Pages
-bun run deploy
-
-# Generate Cloudflare Workers types
-bun run cf-typegen
+```yaml
+---
+title: "Post Title" # Required: string
+preview: "Brief description" # Required: string (for list view)
+date: "2024-04-14" # Required: date (ISO format)
+tags: ["Tag1", "Tag2"] # Required: string array
+---
+Markdown content here...
 ```
 
-**Note**: This project uses Bun as the package manager (see `bun.lock`).
+## Adding a Blog Post
+
+1. Create `src/content/posts/post-slug.md`
+2. Include required frontmatter fields (title, preview, date, tags)
+3. Write content in Markdown
+4. Post automatically appears on homepage (sorted by date descending)

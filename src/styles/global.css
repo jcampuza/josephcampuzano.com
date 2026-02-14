@@ -12,10 +12,10 @@ a {
 }
 
 html {
-  @apply bg-black;
+  @apply bg-neutral-900;
   scroll-behavior: smooth;
 }
 
 body {
-  background: #000000;
+  background: #111111;
 }
