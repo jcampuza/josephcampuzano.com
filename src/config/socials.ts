@@ -1,11 +1,11 @@
-import { appConfig } from './app-config';
+import { appConfig } from "./app-config";
 
 export enum SocialType {
-  email = 'email',
-  twitter = 'twitter',
-  instagram = 'instagram',
-  linkedIn = 'linkedIn',
-  github = 'github',
+  email = "email",
+  twitter = "twitter",
+  instagram = "instagram",
+  linkedIn = "linkedIn",
+  github = "github",
 }
 
 export interface Social {
@@ -17,27 +17,27 @@ export interface Social {
 export const socials: Social[] = [
   {
     type: SocialType.twitter,
-    label: 'Twitter',
-    link: 'https://twitter.com/CampuzanoJoe',
+    label: "X @CampuzanoJoe",
+    link: "https://twitter.com/CampuzanoJoe",
   },
   {
     type: SocialType.instagram,
-    label: 'Instagram',
-    link: 'https://instagram.com/jcampuza',
+    label: "Instagram",
+    link: "https://instagram.com/jcampuza",
   },
   {
     type: SocialType.github,
-    label: 'Github',
-    link: 'https://github.com/jcampuza',
+    label: "Github",
+    link: "https://github.com/jcampuza",
   },
   {
     type: SocialType.linkedIn,
-    label: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/joseph-campuzano/',
+    label: "LinkedIn",
+    link: "https://www.linkedin.com/in/joseph-campuzano/",
   },
   {
     type: SocialType.email,
-    label: 'Email',
+    label: "Email",
     link: `mailto:${appConfig.email}`,
   },
 ];
