@@ -16,7 +16,7 @@ Use `class` prop (not `className`) - Astro convention
 
 # Content
 
-Blog posts in `src/content/posts/` as Markdown with YAML frontmatter. frontmatter Schema defined in `src/content/config.ts` using Zod.
+Blog posts in `src/content/posts/` as Markdown with YAML frontmatter. frontmatter Schema defined in `src/content.config.ts` using Zod (import from `astro/zod`).
 
 ```yaml
 ---

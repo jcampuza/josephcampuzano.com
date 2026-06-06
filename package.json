@@ -2,6 +2,9 @@
   "name": "joseph-campuzano-website",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,18 +15,19 @@
     "cf:deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.6",
+    "@astrojs/cloudflare": "^13.6.1",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.4.4",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
-    "node-html-parser": "^7.0.1",
-    "tailwind-merge": "^3.2.0",
-    "tailwindcss": "^4.1.13"
+    "node-html-parser": "^7.1.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.13",
-    "@tailwindcss/postcss": "^4.1.13",
-    "wrangler": "^4.65.0"
+    "@tailwindcss/cli": "^4.3.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "wrangler": "^4.98.0"
   }
 }
