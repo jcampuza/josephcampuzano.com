@@ -8,7 +8,12 @@
   },
   "kv_namespaces": [
     {
-      "binding": "GITHUB_ACTIVITY"
+      "binding": "SESSION",
+      "id": "68140f160e8545009601dec099a2fefa"
+    },
+    {
+      "binding": "GITHUB_ACTIVITY",
+      "id": "029fd999fd20427ba31afc8d65041802"
     }
   ]
 }
