@@ -86,6 +86,33 @@ This project uses the static-assets Workers deployment model:
 - Build output directory: `dist`
 - Deploy command: `bun run cf:deploy` (or `wrangler deploy`)
 
+### GitHub activity setup
+
+The `/activity` page and `/api/github-activity.json` endpoint use Cloudflare KV to cache a
+normalized public GitHub activity summary for `jcampuza`.
+
+1. Create a GitHub token that can read public profile/repository activity.
+2. Store it for deployment:
+
+```bash
+wrangler secret put GITHUB_TOKEN
+```
+
+3. For local `bun run cf:dev`, create a local `.dev.vars` file:
+
+```bash
+GITHUB_TOKEN=github_pat_or_token_here
+```
+
+4. Rerun binding type generation after changing `wrangler.jsonc`:
+
+```bash
+wrangler types
+```
+
+The `GITHUB_ACTIVITY` KV namespace is declared in `wrangler.jsonc`. The endpoint refreshes from
+GitHub at most once per hour and serves stale KV data if GitHub is temporarily unavailable.
+
 ### Cloudflare dashboard setup (Workers Builds)
 
 1. In Cloudflare, go to **Workers & Pages** and select **Create**.
