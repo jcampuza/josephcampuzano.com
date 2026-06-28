@@ -172,23 +172,28 @@ const dayTone = (count: number) => {
   </section>
 
   <script>
-    const formatter = new Intl.DateTimeFormat(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZoneName: "short",
-    });
+    const formatLocalTimes = (): void => {
+      const formatter = new Intl.DateTimeFormat(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      });
 
-    for (const element of document.querySelectorAll("[data-local-time]")) {
-      const value = element.getAttribute("datetime");
+      for (const element of document.querySelectorAll("[data-local-time]")) {
+        const value = element.getAttribute("datetime");
 
-      if (!value) {
-        continue;
+        if (!value) {
+          continue;
+        }
+
+        element.textContent = formatter.format(new Date(value));
       }
+    };
 
-      element.textContent = formatter.format(new Date(value));
-    }
+    formatLocalTimes();
+    document.addEventListener("astro:page-load", formatLocalTimes);
   </script>
 </Layout>
