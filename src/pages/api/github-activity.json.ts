@@ -1,26 +1,13 @@
-import { env } from "cloudflare:workers";
+import { GITHUB_TOKEN } from "astro:env/server";
 import type { APIRoute } from "astro";
-import {
-  GITHUB_ACTIVITY_HTTP_CACHE,
-  type ActivityKVNamespace,
-  resolveGitHubActivity,
-} from "@/lib/githubActivity";
+import { GITHUB_ACTIVITY_HTTP_CACHE, resolveGitHubActivity } from "@/lib/githubActivity";
 
 export const prerender = false;
 
-interface GitHubActivityEnv {
-  GITHUB_ACTIVITY?: ActivityKVNamespace;
-  GITHUB_TOKEN?: string;
-}
-
-export const GET: APIRoute = async ({ locals }) => {
-  const workerEnv = env as unknown as GitHubActivityEnv;
-
+export const GET: APIRoute = async () => {
   try {
     const activity = await resolveGitHubActivity({
-      githubToken: workerEnv.GITHUB_TOKEN,
-      kv: workerEnv.GITHUB_ACTIVITY,
-      waitUntil: locals.cfContext?.waitUntil.bind(locals.cfContext),
+      githubToken: GITHUB_TOKEN,
     });
 
     return json(activity);

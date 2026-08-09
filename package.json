@@ -9,13 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro build && astro preview",
-    "astro": "astro",
-    "cf:build": "astro build",
-    "cf:dev": "astro build && wrangler dev",
-    "cf:deploy": "astro build && wrangler deploy"
+    "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.6.1",
+    "@astrojs/vercel": "^10.0.8",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.4",
@@ -28,7 +25,6 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.0",
-    "@tailwindcss/postcss": "^4.3.0",
-    "wrangler": "^4.98.0"
+    "@tailwindcss/postcss": "^4.3.0"
   }
 }
