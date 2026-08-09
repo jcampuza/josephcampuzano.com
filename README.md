@@ -1,6 +1,6 @@
 # Joseph Campuzano's Personal Website
 
-This is my personal website built with Astro and configured for deployment on Cloudflare Workers. The site features a modern, responsive design powered by Tailwind CSS.
+This is my personal website built with Astro and configured for deployment on Vercel. The site features a modern, responsive design powered by Tailwind CSS.
 
 ## 🚀 Tech Stack
 
@@ -25,12 +25,6 @@ bun run build
 
 # Preview the production build locally
 bun run preview
-
-# Preview Cloudflare Workers static assets locally
-bun run cf:dev
-
-# Deploy to Cloudflare Workers
-bun run cf:deploy
 
 ```
 
@@ -76,55 +70,32 @@ The content schema is defined in `src/content/config.ts` and includes:
 - `astro.config.mjs` - Astro configuration
 - `tailwind.config.mjs` - Tailwind CSS configuration
 - `tsconfig.json` - TypeScript configuration
-- `wrangler.jsonc` - Cloudflare Workers deployment configuration
 
-## ☁️ Deploy to Cloudflare Workers
+## ☁️ Deploy to Vercel
 
-This project uses the static-assets Workers deployment model:
+Import the Git repository in Vercel. Vercel automatically detects Astro; no framework or output
+directory override is required. The build command is:
 
 - Build command: `bun run build`
-- Build output directory: `dist`
-- Deploy command: `bun run cf:deploy` (or `wrangler deploy`)
 
 ### GitHub activity setup
 
-The `/activity` page and `/api/github-activity.json` endpoint use Cloudflare KV to cache a
-normalized public GitHub activity summary for `jcampuza`.
+The `/activity` page and `/api/github-activity.json` endpoint serve a normalized public GitHub
+activity summary for `jcampuza`. Successful responses are cached by Vercel's CDN for one hour and
+served stale while the cache revalidates for up to one day.
 
 1. Create a GitHub token that can read public profile/repository activity.
-2. Store it for deployment:
-
-```bash
-wrangler secret put GITHUB_TOKEN
-```
-
-3. For local `bun run cf:dev`, create a local `.dev.vars` file:
+2. Add `GITHUB_TOKEN` to the Vercel project's Production and Preview environments.
+3. For local development, create a local `.env` file:
 
 ```bash
 GITHUB_TOKEN=github_pat_or_token_here
 ```
 
-4. Rerun binding type generation after changing `wrangler.jsonc`:
-
-```bash
-wrangler types
-```
-
-The `GITHUB_ACTIVITY` KV namespace is declared in `wrangler.jsonc`. The endpoint refreshes from
-GitHub at most once per hour and serves stale KV data if GitHub is temporarily unavailable.
-
-### Cloudflare dashboard setup (Workers Builds)
-
-1. In Cloudflare, go to **Workers & Pages** and select **Create**.
-2. Import this Git repository.
-3. Set the build command to `bun run build`.
-4. Set the deploy command to `wrangler deploy`.
-5. Add any environment variables/secrets used by the project.
-6. Deploy and verify the generated `*.workers.dev` URL.
-
 ### Custom domain setup
 
-To use a custom domain with Workers, the domain must be managed in Cloudflare DNS (Cloudflare zone). Add the custom domain in your Worker settings after deployment, then switch nameservers when you are ready to cut over traffic.
+Add the production domains in Vercel, then configure the exact DNS records Vercel provides. The
+domain can continue using Cloudflare as its DNS provider; the Vercel records should be DNS-only.
 
 ## 📄 License
 

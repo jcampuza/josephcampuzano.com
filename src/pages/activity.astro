@@ -1,9 +1,8 @@
 ---
-import { env } from "cloudflare:workers";
+import { GITHUB_TOKEN } from "astro:env/server";
 import Layout from "@/layouts/Layout.astro";
 import {
   GITHUB_ACTIVITY_HTTP_CACHE,
-  type ActivityKVNamespace,
   type GitHubActivitySnapshot,
   resolveGitHubActivity,
 } from "@/lib/githubActivity";
@@ -11,21 +10,12 @@ import { cn } from "@/lib/cn";
 
 export const prerender = false;
 
-interface GitHubActivityEnv {
-  GITHUB_ACTIVITY?: ActivityKVNamespace;
-  GITHUB_TOKEN?: string;
-}
-
-const workerEnv = env as unknown as GitHubActivityEnv;
-
 let activity: GitHubActivitySnapshot | null = null;
 let loadError: string | null = null;
 
 try {
   activity = await resolveGitHubActivity({
-    githubToken: workerEnv.GITHUB_TOKEN,
-    kv: workerEnv.GITHUB_ACTIVITY,
-    waitUntil: Astro.locals.cfContext?.waitUntil.bind(Astro.locals.cfContext),
+    githubToken: GITHUB_TOKEN,
   });
 } catch (error) {
   loadError = error instanceof Error ? error.message : "GitHub activity is unavailable.";
@@ -93,8 +83,8 @@ const dayTone = (count: number) => {
           </div>
         ) : (
           <p class="mt-5 max-w-[680px] text-neutral-300">
-            The activity snapshot is not available yet. Once the Cloudflare KV binding and GitHub
-            token are configured, this page will fill in automatically.
+            The activity snapshot is not available yet. Once the GitHub token is configured, this
+            page will fill in automatically.
           </p>
         )
       }

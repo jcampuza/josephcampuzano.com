@@ -1,8 +1,7 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-
-import cloudflare from "@astrojs/cloudflare";
+import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   vite: {
@@ -17,5 +16,15 @@ export default defineConfig({
     defaultStrategy: "viewport",
   },
 
-  adapter: cloudflare(),
+  env: {
+    schema: {
+      GITHUB_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+    },
+  },
+
+  adapter: vercel(),
 });

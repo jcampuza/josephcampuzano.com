@@ -3,24 +3,10 @@ import { Octokit } from "octokit";
 const GITHUB_API_VERSION = "2022-11-28";
 
 export const GITHUB_ACTIVITY_USERNAME = "jcampuza";
-export const GITHUB_ACTIVITY_CACHE_KEY = `github-activity:${GITHUB_ACTIVITY_USERNAME}:v2`;
-export const GITHUB_ACTIVITY_TTL_SECONDS = 60 * 60;
 export const GITHUB_ACTIVITY_HTTP_CACHE =
-  "public, max-age=300, s-maxage=300, stale-while-revalidate=3600";
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400";
 
-export type GitHubActivitySource = "github" | "kv" | "stale-kv";
-
-export interface ActivityKVNamespace {
-  get<T = unknown>(
-    key: string,
-    options?: { type?: "json"; cacheTtl?: number },
-  ): Promise<T | null>;
-  put(
-    key: string,
-    value: string,
-    options?: { metadata?: Record<string, unknown>; expirationTtl?: number },
-  ): Promise<void>;
-}
+export type GitHubActivitySource = "github";
 
 export interface GitHubActivityTotals {
   contributions: number;
@@ -92,8 +78,6 @@ interface GitHubActivityCacheRecord {
 
 export interface ResolveGitHubActivityOptions {
   githubToken?: string;
-  kv?: ActivityKVNamespace;
-  waitUntil?: (promise: Promise<unknown>) => void;
   now?: Date;
 }
 
@@ -220,67 +204,18 @@ const ACTIVITY_QUERY = `
 
 export async function resolveGitHubActivity({
   githubToken,
-  kv,
-  waitUntil,
   now = new Date(),
 }: ResolveGitHubActivityOptions): Promise<GitHubActivitySnapshot> {
-  const cached = await readCachedActivity(kv);
-  const cachedAgeSeconds = cached
-    ? Math.floor((now.getTime() - new Date(cached.data.generatedAt).getTime()) / 1000)
-    : Number.POSITIVE_INFINITY;
-
-  if (cached && cachedAgeSeconds < GITHUB_ACTIVITY_TTL_SECONDS) {
-    return withCacheState(cached.data, {
-      stale: false,
-      source: "kv",
-    });
-  }
-
-  if (cached) {
-    if (githubToken && kv && waitUntil) {
-      waitUntil(refreshGitHubActivity({ githubToken, kv, now }).catch(() => undefined));
-    }
-
-    return withCacheState(cached.data, {
-      stale: true,
-      source: "stale-kv",
-    });
-  }
-
   if (!githubToken) {
     throw new Error("GITHUB_TOKEN is not configured.");
   }
 
-  if (!kv) {
-    throw new Error("GITHUB_ACTIVITY KV binding is not configured.");
-  }
+  const data = await fetchGitHubActivity(githubToken, now);
 
-  const fresh = await refreshGitHubActivity({ githubToken, kv, now });
-
-  return withCacheState(fresh.data, {
+  return withCacheState(data, {
     stale: false,
     source: "github",
   });
-}
-
-export async function refreshGitHubActivity({
-  githubToken,
-  kv,
-  now = new Date(),
-}: Required<Pick<ResolveGitHubActivityOptions, "githubToken" | "kv">> & {
-  now?: Date;
-}): Promise<GitHubActivityCacheRecord> {
-  const data = await fetchGitHubActivity(githubToken, now);
-  const record: GitHubActivityCacheRecord = { data };
-
-  await kv.put(GITHUB_ACTIVITY_CACHE_KEY, JSON.stringify(record), {
-    metadata: {
-      generatedAt: data.generatedAt,
-      username: data.username,
-    },
-  });
-
-  return record;
 }
 
 export async function fetchGitHubActivity(
@@ -359,21 +294,6 @@ function withCacheState(
     source: state.source,
     error: state.error,
   };
-}
-
-async function readCachedActivity(kv?: ActivityKVNamespace): Promise<GitHubActivityCacheRecord | null> {
-  if (!kv) {
-    return null;
-  }
-
-  try {
-    return await kv.get<GitHubActivityCacheRecord>(GITHUB_ACTIVITY_CACHE_KEY, {
-      type: "json",
-      cacheTtl: 60,
-    });
-  } catch {
-    return null;
-  }
 }
 
 function createGitHubClient(githubToken: string) {

@@ -23,6 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# wrangler files
+# platform-local files
 .wrangler
 .dev.vars*
+.vercel
