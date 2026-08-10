@@ -1,8 +1,16 @@
 # Commands
 
 install: bun install
-run: bun run dev
+dev: bun run dev
 build: bun run build
+preview: bun run preview
+check: bun run check
+lint: bun run lint
+lint fix: bun run lint:fix
+format check: bun run fmt:check
+format fix: bun run fmt
+
+Before finishing a change, run `bun run check` and `bun run build`.
 
 # Astro Code style
 

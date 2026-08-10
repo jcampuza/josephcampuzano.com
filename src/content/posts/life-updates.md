@@ -1,9 +1,9 @@
 ---
 {
-  title: 'A year in review',
+  title: "A year in review",
   preview: "This has been an interesting year for us all, and I am no exception. But I wanted to take a moment to put in writing some of the things I've been up to, am working on, and have completed in the past year.",
-  date: '2021-12-27T16:48:50.947Z',
-  tags: ['Personal', 'Accomplishments', 'Life Review'],
+  date: "2021-12-27T16:48:50.947Z",
+  tags: ["Personal", "Accomplishments", "Life Review"],
 }
 ---
 

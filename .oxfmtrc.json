@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": ["**/*.astro", "schema.graphql"],
+  "sortTailwindcss": {
+    "functions": ["cn"],
+    "stylesheet": "./src/styles/global.css"
+  }
+}
