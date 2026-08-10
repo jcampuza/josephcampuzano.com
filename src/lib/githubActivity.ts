@@ -1,3 +1,4 @@
+import { Effect, Schema } from "effect";
 import { Octokit } from "octokit";
 
 const GITHUB_API_VERSION = "2022-11-28";
@@ -202,40 +203,66 @@ const ACTIVITY_QUERY = `
   }
 `;
 
-export async function resolveGitHubActivity({
-  githubToken,
-  now = new Date(),
-}: ResolveGitHubActivityOptions): Promise<GitHubActivitySnapshot> {
-  if (!githubToken) {
-    throw new Error("GITHUB_TOKEN is not configured.");
-  }
+export class GithubActivityConfigError extends Schema.TaggedError<GithubActivityConfigError>()(
+  "GithubActivityConfigError",
+  {
+    message: Schema.String,
+  },
+) {}
 
-  const data = await fetchGitHubActivity(githubToken, now);
+export class GithubActivityUserNotFound extends Schema.TaggedError<GithubActivityUserNotFound>()(
+  "GithubActivityUserNotFound",
+  {
+    username: Schema.String,
+    message: Schema.String,
+  },
+) {}
 
-  return withCacheState(data, {
-    stale: false,
-    source: "github",
-  });
-}
+export class GithubActivityRequestError extends Schema.TaggedError<GithubActivityRequestError>()(
+  "GithubActivityRequestError",
+  {
+    operation: Schema.String,
+    message: Schema.String,
+    cause: Schema.Defect(),
+  },
+) {}
 
-export async function fetchGitHubActivity(
+export type GithubActivityError =
+  | GithubActivityConfigError
+  | GithubActivityUserNotFound
+  | GithubActivityRequestError;
+
+export const fetchGitHubActivity = Effect.fn("GitHubActivity.fetch")(function* (
   githubToken: string,
   now = new Date(),
-): Promise<GitHubActivityCacheRecord["data"]> {
+) {
   const octokit = createGitHubClient(githubToken);
   const from = new Date(now);
   from.setUTCFullYear(from.getUTCFullYear() - 1);
 
-  const graphqlPayload = await octokit.graphql<GitHubGraphQLResponse>(ACTIVITY_QUERY, {
-    login: GITHUB_ACTIVITY_USERNAME,
-    from: from.toISOString(),
-    to: now.toISOString(),
+  const graphqlPayload = yield* Effect.tryPromise({
+    try: (signal) =>
+      octokit.graphql<GitHubGraphQLResponse>(ACTIVITY_QUERY, {
+        login: GITHUB_ACTIVITY_USERNAME,
+        from: from.toISOString(),
+        to: now.toISOString(),
+        request: { signal },
+      }),
+    catch: (cause) =>
+      new GithubActivityRequestError({
+        operation: "GitHubActivity.fetch",
+        message: "Failed to fetch GitHub activity.",
+        cause,
+      }),
   });
 
   const user = graphqlPayload.user;
 
   if (!user) {
-    throw new Error(`GitHub user "${GITHUB_ACTIVITY_USERNAME}" was not found.`);
+    return yield* new GithubActivityUserNotFound({
+      username: GITHUB_ACTIVITY_USERNAME,
+      message: `GitHub user "${GITHUB_ACTIVITY_USERNAME}" was not found.`,
+    });
   }
 
   const contributions = user.contributionsCollection;
@@ -281,7 +308,31 @@ export async function fetchGitHubActivity(
       remaining: graphqlPayload.rateLimit?.remaining ?? null,
       resetAt: graphqlPayload.rateLimit?.resetAt ?? null,
     },
-  };
+  } satisfies GitHubActivityCacheRecord["data"];
+});
+
+export const resolveGitHubActivityEffect = Effect.fn("GitHubActivity.resolve")(function* ({
+  githubToken,
+  now = new Date(),
+}: ResolveGitHubActivityOptions) {
+  if (!githubToken) {
+    return yield* new GithubActivityConfigError({
+      message: "GITHUB_TOKEN is not configured.",
+    });
+  }
+
+  const data = yield* fetchGitHubActivity(githubToken, now);
+
+  return withCacheState(data, {
+    stale: false,
+    source: "github",
+  });
+});
+
+export async function resolveGitHubActivity(
+  options: ResolveGitHubActivityOptions,
+): Promise<GitHubActivitySnapshot> {
+  return Effect.runPromise(resolveGitHubActivityEffect(options));
 }
 
 function withCacheState(
