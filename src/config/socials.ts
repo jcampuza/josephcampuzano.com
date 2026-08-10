@@ -17,7 +17,7 @@ export interface Social {
 export const socials: Social[] = [
   {
     type: SocialType.twitter,
-    label: "X @CampuzanoJoe",
+    label: "@CampuzanoJoe",
     link: "https://twitter.com/CampuzanoJoe",
   },
   {
