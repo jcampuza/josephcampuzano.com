@@ -1,4 +1,4 @@
-import { parse } from 'node-html-parser';
+import { parse } from "node-html-parser";
 
 export const readingTimeMins = (html: string, wpm = 250) => {
   const el = parse(html);

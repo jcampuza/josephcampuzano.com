@@ -1,9 +1,9 @@
 ---
 {
-  title: 'Short Update for 2023 - Madrid',
+  title: "Short Update for 2023 - Madrid",
   preview: "Just a short update since I haven't written in a while - written in Madrid",
-  date: '2023-03-05T12:53:45.011Z',
-  tags: ['Personal', 'Life Review'],
+  date: "2023-03-05T12:53:45.011Z",
+  tags: ["Personal", "Life Review"],
 }
 ---
 

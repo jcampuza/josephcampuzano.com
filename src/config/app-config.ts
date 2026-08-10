@@ -1,3 +1,3 @@
 export const appConfig = {
-  email: 'campuzanojoseph@gmail.com',
+  email: "campuzanojoseph@gmail.com",
 };

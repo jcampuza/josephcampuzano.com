@@ -7,5 +7,5 @@ export interface Meta {
 export const defaultMetadata: Meta = {
   description: "Joseph Campuzano's personal blog",
   title: "Joseph Campuzano's personal blog",
-  image: '/favicon-32x32.png',
+  image: "/favicon-32x32.png",
 };

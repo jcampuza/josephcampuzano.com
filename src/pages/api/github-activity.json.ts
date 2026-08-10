@@ -1,5 +1,6 @@
-import { GITHUB_TOKEN } from "astro:env/server";
 import type { APIRoute } from "astro";
+import { GITHUB_TOKEN } from "astro:env/server";
+
 import { GITHUB_ACTIVITY_HTTP_CACHE, resolveGitHubActivity } from "@/lib/githubActivity";
 
 export const prerender = false;
