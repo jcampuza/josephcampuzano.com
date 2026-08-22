@@ -80,9 +80,10 @@ directory override is required. The build command is:
 
 ### GitHub activity setup
 
-The `/activity` page and `/api/github-activity.json` endpoint serve a normalized public GitHub
-activity summary for `jcampuza`. Successful responses are cached by Vercel's CDN for one hour and
-served stale while the cache revalidates for up to one day.
+The `/activity` page is statically prerendered and loads GitHub activity through an Astro server
+island. `/api/github-activity.json` serves the same snapshot as JSON. Successful island and API
+responses are cached by Vercel's CDN for one hour and served stale while the cache revalidates for
+up to one day.
 
 1. Create a GitHub token that can read public profile/repository activity.
 2. Add `GITHUB_TOKEN` to the Vercel project's Production and Preview environments.
