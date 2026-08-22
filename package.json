@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && bun scripts/use-bun-runtime.ts",
     "preview": "astro build && astro preview",
     "astro": "astro",
     "lint": "oxlint",
