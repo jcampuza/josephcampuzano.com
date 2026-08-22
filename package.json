@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && bun scripts/use-bun-runtime.ts",
+    "build": "astro build",
     "preview": "astro build && astro preview",
     "astro": "astro",
     "lint": "oxlint",
@@ -33,6 +33,6 @@
     "oxlint": "^1.77.0"
   },
   "engines": {
-    "bun": "1.x"
+    "node": "^22.12.0 || ^24.0.0"
   }
 }

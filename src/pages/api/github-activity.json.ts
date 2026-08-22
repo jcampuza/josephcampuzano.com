@@ -2,13 +2,10 @@ import type { APIRoute } from "astro";
 import { GITHUB_TOKEN } from "astro:env/server";
 
 import { GITHUB_ACTIVITY_HTTP_CACHE, resolveGitHubActivity } from "@/lib/githubActivity";
-import { logRuntime } from "@/lib/runtime";
 
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  logRuntime();
-
   try {
     const activity = await resolveGitHubActivity({
       githubToken: GITHUB_TOKEN,
