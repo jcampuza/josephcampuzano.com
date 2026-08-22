@@ -6,6 +6,9 @@ import {
   resolveGitHubActivityEffect,
 } from "@/lib/githubActivity";
 import { cn } from "@/lib/cn";
+import { logRuntime } from "@/lib/runtime";
+
+logRuntime();
 
 const { activity, loadError } = await Effect.runPromise(
   resolveGitHubActivityEffect({ githubToken: GITHUB_TOKEN }).pipe(
